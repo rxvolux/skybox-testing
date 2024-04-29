@@ -10,6 +10,10 @@ var startRenderLoop = function (engine, canvas) {
     });
 }
 
+var rotspeed = {
+    increase: 0.0000001,
+    max: 0.0001
+};
 var engine = null;
 var scene = null;
 var sceneToRender = null;
@@ -36,9 +40,9 @@ var createScene = function () {
     //rotate real
     var rot = {x: 0, y: 0}
     scene.onBeforeRenderObservable.add(() => {
-        if(mouse.x > 50) { rot.x += 0.0000001;} else { rot.x -= 0.0000001;}
-        if(mouse.y > 50) { rot.y += 0.0000001;} else { rot.y -= 0.0000001;}
-        rot.x = clamp(rot.x, -0.0001, 0.0001); rot.y = clamp(rot.y, -0.0001, 0.0001);
+        if(mouse.x > 50) { rot.x += rotspeed.increase;} else { rot.x -= rotspeed.increase;}
+        if(mouse.y > 50) { rot.y += rotspeed.increase;} else { rot.y -= rotspeed.increase;}
+        rot.x = clamp(rot.x, -rotspeed.max, rotspeed.max); rot.y = clamp(rot.y, -rotspeed.max, rotspeed.max);
         camera.rotation._y += rot.x; camera.rotation._x += rot.y;
         camera.rotation._x = clamp(camera.rotation._x, deg2rad(-85), deg2rad(85));
     }); 
